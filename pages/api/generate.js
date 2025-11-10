@@ -3,20 +3,20 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { prompt } = req.body;
+  const { prompt, width = 512, height = 512 } = req.body;
 
   try {
     const response = await fetch('https://aihorde.net/api/v2/generate/async', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'apikey': process.env.HORDE_API_KEY, // Set your API key in Vercel environment
+        'apikey': process.env.HORDE_API_KEY,
       },
       body: JSON.stringify({
         prompt: prompt,
         params: {
-          height: 512,
-          width: 512,
+          height: height,
+          width: width,
           steps: 20,
         },
       }),
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
         result = await fetchResult.json();
         break;
       }
-      await new Promise(r => setTimeout(r, 5000)); // Wait 5 seconds
+      await new Promise(r => setTimeout(r, 5000));
     }
 
     const imageUrl = result.generations[0]?.img;
