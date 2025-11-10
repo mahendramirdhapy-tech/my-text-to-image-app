@@ -4,10 +4,9 @@ export default function Home() {
   const [prompt, setPrompt] = useState('');
   const [image, setImage] = useState('');
   const [loading, setLoading] = useState(false);
-  const [size, setSize] = useState('512x512'); // Default size
+  const [size, setSize] = useState('512x512');
   const [history, setHistory] = useState([]);
 
-  // Load history from localStorage
   useEffect(() => {
     const saved = localStorage.getItem('promptHistory');
     if (saved) setHistory(JSON.parse(saved));
@@ -30,8 +29,10 @@ export default function Home() {
     setImage(data.url);
     setLoading(false);
 
-    // Save to history
-    const newHistory = [{ prompt, image: data.url, date: new Date().toLocaleString() }, ...history.slice(0, 4)];
+    const newHistory = [
+      { prompt, image: data.url, date: new Date().toLocaleString() },
+      ...history.slice(0, 9)
+    ];
     setHistory(newHistory);
     localStorage.setItem('promptHistory', JSON.stringify(newHistory));
   };
@@ -41,7 +42,6 @@ export default function Home() {
       <div className="max-w-md mx-auto bg-white rounded-xl shadow-md p-6">
         <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">AI Image Generator</h1>
 
-        {/* Prompt Input */}
         <form onSubmit={handleSubmit} className="mb-6">
           <input
             type="text"
@@ -52,7 +52,6 @@ export default function Home() {
             required
           />
 
-          {/* Size Selector */}
           <select
             value={size}
             onChange={(e) => setSize(e.target.value)}
@@ -72,14 +71,12 @@ export default function Home() {
           </button>
         </form>
 
-        {/* Loading Animation */}
         {loading && (
           <div className="flex justify-center my-6">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
           </div>
         )}
 
-        {/* Generated Image */}
         {image && (
           <div className="mt-6">
             <img src={image} alt="Generated" className="w-full rounded-lg" />
@@ -95,14 +92,13 @@ export default function Home() {
           </div>
         )}
 
-        {/* History Section */}
         <div className="mt-8">
           <h2 className="text-lg font-semibold text-gray-700 mb-3">Recent Prompts</h2>
           {history.length > 0 ? (
             <ul className="space-y-2">
               {history.map((item, index) => (
                 <li key={index} className="p-2 border-b text-sm">
-                  <p className="font-medium">{item.prompt}</p>
+                  <p className="font-medium truncate">{item.prompt}</p>
                   <p className="text-gray-500 text-xs">{item.date}</p>
                 </li>
               ))}
