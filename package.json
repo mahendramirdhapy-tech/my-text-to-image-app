@@ -1,14 +1,12 @@
 {
-  "name": "text-to-image-app",
-  "version": "1.0.0",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
   "dependencies": {
     "next": "^14",
     "react": "^18",
     "react-dom": "^18"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0"
   }
 }
