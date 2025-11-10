@@ -25,7 +25,6 @@ export default async function handler(req, res) {
     const data = await response.json();
     const id = data.id;
 
-    // Poll for result
     let result;
     while (true) {
       const check = await fetch(`https://aihorde.net/api/v2/generate/check/${id}`);
